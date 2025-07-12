@@ -2,6 +2,8 @@
 import { Plus, Trash2 } from 'lucide-react';
 // import NoTask from '@/components/NoTask/NoTask';
 import React, { useState } from 'react';
+import TaskList from '../TaskList/taskList';
+import Modal from '../Modal/modal';
 
 interface Task {
   id: number;
@@ -9,11 +11,10 @@ interface Task {
   status: 'Pending' | 'In Progress' | 'Completed';
 }
 
-type Status = 'Pending' | 'In Progress' | 'Completed';
-
 export default function TaskComp() {
   const [activeNav, setActiveNav] = useState('Pending');
   const [activeTaskId, setActiveTaskId] = useState(0);
+  const [isOPen, setIsOpen] = useState(false);
 
   const numberOfTasks = 7;
 
@@ -46,14 +47,6 @@ export default function TaskComp() {
 
   console.log('pagnated', paginatedTasks);
 
-  const handleStatusChange = (taskId: number, newStatus: Status) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId ? { ...task, status: newStatus } : task
-      )
-    );
-  };
-
   // const [isAuth, setIsAuth] = useState(false);
 
   // if (!isAuth) {
@@ -61,17 +54,25 @@ export default function TaskComp() {
   // }
 
   return (
-    <div className="flex flex-col gap-7">
+    <div className={`flex flex-col gap-7`}>
       {/* top nav */}
       <div className="">
         <button
-          className="bg-primary border border-primary  px-6 py-1 text-lg text-white font-bold"
+          className={`${
+            activeNav === 'Pending'
+              ? 'bg-primary border border-primary text-white'
+              : 'text-black bg-white border border-gray-300'
+          }  px-6 py-1 text-lg  font-bold`}
           onClick={() => setActiveNav('Pending')}
         >
           Pending
         </button>
         <button
-          className="bg-white border border-gray-300 px-6 py-1 text-lg text-black font-bold"
+          className={`${
+            activeNav === 'Completed'
+              ? 'bg-primary border border-primary text-white'
+              : 'text-black bg-white border border-gray-300'
+          }  px-6 py-1 text-lg  font-bold`}
           onClick={() => setActiveNav('Completed')}
         >
           Completed
@@ -86,7 +87,10 @@ export default function TaskComp() {
               You have got
               <span className="text-primary"> {numberOfTasks} task</span> today
             </span>
-            <button className="flex items-center gap-1 bg-primary text-gray-200 text-sm px-6 py-2 rounded-lg">
+            <button
+              className="flex items-center gap-1 bg-primary text-gray-200 text-sm px-6 py-2 rounded-lg"
+              onClick={() => setIsOpen(true)}
+            >
               <Plus size={20} strokeWidth={1.2} />
               Add New
             </button>
@@ -95,7 +99,7 @@ export default function TaskComp() {
       </div>
 
       {/* status */}
-      <div>
+      <div className="-mb-3">
         <section>
           {activeNav === 'Pending' ? (
             <span className="font-semibold text-xl">On Hold</span>
@@ -112,64 +116,23 @@ export default function TaskComp() {
 
       {/* tasks */}
       <div>
-        <div className="space-y-5">
-          {paginatedTasks.map((task) => (
-            <div
-              key={task.id}
-              onClick={() => setActiveTaskId(task.id)}
-              className={`flex items-center justify-between cursor-pointer py-3 ${
-                activeTaskId === task.id ? 'bg-light-primary pl-3 p-2' : ''
-              }`}
-            >
-              <div className="flex items-center gap-3 w-[30rem]">
-                <div
-                  className={`w-1.5 h-1.5 rounded-full ${
-                    task.status === 'Completed' ? 'bg-pink-300' : 'bg-primary'
-                  }   `}
-                ></div>
-                <span
-                  className={`${
-                    task.status === 'Completed' && 'text-gray-500'
-                  } font-semibold `}
-                >
-                  {task.title}
-                </span>
-              </div>
-              <div className="flex items-center gap-3 min-w-[120px]">
-                <select
-                  name="status"
-                  value={task.status}
-                  className="min-w-[120px]"
-                  onChange={(e) =>
-                    handleStatusChange(task.id, e.target.value as Status)
-                  }
-                >
-                  <option value={task.status} disabled>
-                    {task.status}
-                  </option>
-
-                  {['Pending', 'In Progress', 'Completed']
-                    .filter((status) => status !== task.status)
-                    .map((status) => (
-                      <option key={status} value={status}>
-                        {status}
-                      </option>
-                    ))}
-                </select>
-              </div>
-              <div className="min-w-[2rem]">
-                <button className="min-w-[2rem]">
-                  <Trash2 />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+        <TaskList
+          paginatedTasks={paginatedTasks}
+          setActiveTaskId={setActiveTaskId}
+          activeTaskId={activeTaskId}
+          setTasks={setTasks}
+        />
       </div>
 
       {/*pagination*/}
 
       <div></div>
+
+      {isOPen && (
+        <div>
+          <Modal setIsOpen={setIsOpen} />
+        </div>
+      )}
     </div>
   );
 }
