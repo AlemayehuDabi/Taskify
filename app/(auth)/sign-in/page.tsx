@@ -1,8 +1,13 @@
 import Background from '@/components/BackgroundImage/BackgroundImg';
+import { RootState } from '@/store/store';
 import Link from 'next/link';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function SignIn() {
+  const user = useSelector((state: RootState) => state.user.value);
+  const dispatch = useDispatch();
+
   return (
     // background component
     <Background>
