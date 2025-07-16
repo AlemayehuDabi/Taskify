@@ -2,13 +2,13 @@ import type { RootState } from '@/store/store';
 import { createSlice } from '@reduxjs/toolkit';
 
 interface initialStateProps {
-  task: string;
+  task: any;
   isLoading: boolean;
   error: any;
 }
 
 const initialState: initialStateProps = {
-  task: '',
+  task: null,
   isLoading: false,
   error: null,
 };

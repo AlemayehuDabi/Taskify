@@ -1,9 +1,11 @@
 'use client';
-import { Plus, Trash2 } from 'lucide-react';
+
+import { Plus } from 'lucide-react';
 // import NoTask from '@/components/NoTask/NoTask';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TaskList from '../TaskList/taskList';
 import Modal from '../Modal/modal';
+import TaskPagination from '../TaskPagination/taskPagination';
 
 interface Task {
   id: number;
@@ -15,6 +17,11 @@ export default function TaskComp() {
   const [activeNav, setActiveNav] = useState('Pending');
   const [activeTaskId, setActiveTaskId] = useState(0);
   const [isOPen, setIsOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [countCompletedTask, setCountCompletedTasks] = useState(0);
+  const [countInCompletedTask, setCountInCompletedTasks] = useState(0);
+
+  const itemsPerPage = 3;
 
   const numberOfTasks = 7;
 
@@ -37,12 +44,71 @@ export default function TaskComp() {
     { id: 4, title: 'Complete project documentation', status: 'Completed' },
     { id: 5, title: 'Review code submissions', status: 'Completed' },
     { id: 6, title: 'Setup development environment', status: 'Completed' },
+    {
+      id: 7,
+      title: 'FetanSystem Technology internship test project',
+      status: 'Pending',
+    },
+    {
+      id: 8,
+      title: 'FetanSystem Technology internship test project',
+      status: 'In Progress',
+    },
+    {
+      id: 9,
+      title: 'FetanSystem Technology internship test project',
+      status: 'Pending',
+    },
+    { id: 10, title: 'Complete project documentation', status: 'Completed' },
+    { id: 11, title: 'Review code submissions', status: 'Completed' },
+    { id: 12, title: 'Setup development environment', status: 'Completed' },
+    {
+      id: 13,
+      title: 'FetanSystem Technology internship test project',
+      status: 'Pending',
+    },
+    {
+      id: 14,
+      title: 'FetanSystem Technology internship test project',
+      status: 'In Progress',
+    },
+    {
+      id: 14,
+      title: 'FetanSystem Technology internship test project',
+      status: 'Pending',
+    },
+    { id: 15, title: 'Complete project documentation', status: 'Completed' },
+    { id: 16, title: 'Review code submissions', status: 'Completed' },
+    { id: 17, title: 'Setup development environment', status: 'Completed' },
+    {
+      id: 18,
+      title: 'FetanSystem Technology internship test project',
+      status: 'Pending',
+    },
+    {
+      id: 19,
+      title: 'FetanSystem Technology internship test project',
+      status: 'In Progress',
+    },
+    {
+      id: 20,
+      title: 'FetanSystem Technology internship test project',
+      status: 'Pending',
+    },
+    { id: 21, title: 'Complete project documentation', status: 'Completed' },
+    { id: 22, title: 'Review code submissions', status: 'Completed' },
+    { id: 23, title: 'Setup development environment', status: 'Completed' },
   ]);
 
-  const paginatedTasks = tasks.filter((task) =>
+  const filteredTasks = tasks.filter((task) =>
     activeNav === 'Completed'
       ? task.status === 'Completed'
       : task.status !== 'Completed'
+  );
+
+  const paginatedTasks = filteredTasks.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
   );
 
   console.log('pagnated', paginatedTasks);
@@ -50,8 +116,24 @@ export default function TaskComp() {
   // const [isAuth, setIsAuth] = useState(false);
 
   // if (!isAuth) {
-  //   return <NoTask />;
+  //  router('/sign-in)
   // }
+
+  // if(tasks.length === 0){
+  //  return <NoTask />;
+  // }
+
+  useEffect(() => {
+    const completedCount = tasks.filter(
+      (task) => task.status === 'Completed'
+    ).length;
+    const inCompletedCount = tasks.filter(
+      (task) => task.status !== 'Completed'
+    ).length;
+
+    setCountCompletedTasks(completedCount);
+    setCountInCompletedTasks(inCompletedCount);
+  }, [tasks]);
 
   return (
     <div className={`flex flex-col gap-7`}>
@@ -89,7 +171,7 @@ export default function TaskComp() {
             </span>
             <button
               className="flex items-center gap-1 bg-primary text-gray-200 text-sm px-6 py-2 rounded-lg"
-              onClick={() => setIsOpen(true)}
+              onClick={() => setIsOpen(!isOPen)}
             >
               <Plus size={20} strokeWidth={1.2} />
               Add New
@@ -126,7 +208,18 @@ export default function TaskComp() {
 
       {/*pagination*/}
 
-      <div></div>
+      <div className="">
+        <TaskPagination
+          totalItems={
+            activeNav === 'Completed'
+              ? countCompletedTask
+              : countInCompletedTask
+          }
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+        />
+      </div>
 
       {isOPen && (
         <div>

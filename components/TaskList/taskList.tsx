@@ -1,6 +1,7 @@
 import { Trash2 } from 'lucide-react';
+import DropDown from '../DropDown/dropDown';
 
-type Status = 'Pending' | 'In Progress' | 'Completed';
+export type Status = 'Pending' | 'In Progress' | 'Completed';
 
 export default function TaskList({
   paginatedTasks,
@@ -34,35 +35,8 @@ export default function TaskList({
             ></div>
             <span className="font-semibold">{task.title}</span>
           </div>
-          <div
-            className={`min-w-[120px] ${
-              task.status === 'Completed' && 'bg-green-200'
-            }  bg-red-100 px-4 py-1 rounded-full`}
-          >
-            <select
-              name="status"
-              value={task.status}
-              className={`min-w-[120px] ${
-                task.status === 'Pending' && 'text-primary'
-              } ${task.status === 'In Progress' && 'text-blue-700'} ${
-                task.status === 'Completed' && 'text-secondary'
-              }`}
-              onChange={(e) =>
-                handleStatusChange(task.id, e.target.value as Status)
-              }
-            >
-              <option value={task.status} disabled>
-                {task.status}
-              </option>
-
-              {['Pending', 'In Progress', 'Completed']
-                .filter((status) => status !== task.status)
-                .map((status) => (
-                  <option key={status} value={status} className="text-black">
-                    {status}
-                  </option>
-                ))}
-            </select>
+          <div>
+            <DropDown task={task} handleStatusChange={handleStatusChange} />
           </div>
           <div className="min-w-[2rem]">
             <button className="min-w-[2rem] text-primary ">
