@@ -18,6 +18,8 @@ export default function TaskComp() {
   const [activeTaskId, setActiveTaskId] = useState(0);
   const [isOPen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [currentPageForCompleted, setCurrentPageForCompleted] = useState(1);
+  const [currentPageForInCompleted, setCurrentPageForInCompleted] = useState(1);
   const [countCompletedTask, setCountCompletedTasks] = useState(0);
   const [countInCompletedTask, setCountInCompletedTasks] = useState(0);
 
@@ -26,78 +28,32 @@ export default function TaskComp() {
   const numberOfTasks = 7;
 
   const [tasks, setTasks] = useState<Task[]>([
-    {
-      id: 1,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    {
-      id: 2,
-      title: 'FetanSystem Technology internship test project',
-      status: 'In Progress',
-    },
-    {
-      id: 3,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    { id: 4, title: 'Complete project documentation', status: 'Completed' },
-    { id: 5, title: 'Review code submissions', status: 'Completed' },
-    { id: 6, title: 'Setup development environment', status: 'Completed' },
-    {
-      id: 7,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    {
-      id: 8,
-      title: 'FetanSystem Technology internship test project',
-      status: 'In Progress',
-    },
-    {
-      id: 9,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    { id: 10, title: 'Complete project documentation', status: 'Completed' },
-    { id: 11, title: 'Review code submissions', status: 'Completed' },
-    { id: 12, title: 'Setup development environment', status: 'Completed' },
-    {
-      id: 13,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    {
-      id: 14,
-      title: 'FetanSystem Technology internship test project',
-      status: 'In Progress',
-    },
-    {
-      id: 14,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    { id: 15, title: 'Complete project documentation', status: 'Completed' },
-    { id: 16, title: 'Review code submissions', status: 'Completed' },
-    { id: 17, title: 'Setup development environment', status: 'Completed' },
-    {
-      id: 18,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    {
-      id: 19,
-      title: 'FetanSystem Technology internship test project',
-      status: 'In Progress',
-    },
-    {
-      id: 20,
-      title: 'FetanSystem Technology internship test project',
-      status: 'Pending',
-    },
-    { id: 21, title: 'Complete project documentation', status: 'Completed' },
-    { id: 22, title: 'Review code submissions', status: 'Completed' },
-    { id: 23, title: 'Setup development environment', status: 'Completed' },
+    { id: 1, title: 'Setup development environment', status: 'Pending' },
+    { id: 2, title: 'Write project requirements', status: 'Pending' },
+    { id: 3, title: 'Initial UI design draft', status: 'Pending' },
+    { id: 4, title: 'Database schema planning', status: 'Pending' },
+    { id: 5, title: 'Prepare test cases', status: 'Pending' },
+    { id: 6, title: 'Team onboarding session', status: 'Pending' },
+    { id: 7, title: 'API documentation outline', status: 'Pending' },
+    { id: 8, title: 'Confirm hosting setup', status: 'Pending' },
+
+    { id: 9, title: 'Implement user authentication', status: 'In Progress' },
+    { id: 10, title: 'Develop dashboard layout', status: 'In Progress' },
+    { id: 11, title: 'Integrate payment gateway', status: 'In Progress' },
+    { id: 12, title: 'Refactor task management module', status: 'In Progress' },
+    { id: 13, title: 'Optimize app performance', status: 'In Progress' },
+    { id: 14, title: 'Fix reported bugs', status: 'In Progress' },
+    { id: 15, title: 'Add multi-language support', status: 'In Progress' },
+    { id: 16, title: 'Update project README', status: 'In Progress' },
+
+    { id: 17, title: 'Deploy latest version to staging', status: 'Completed' },
+    { id: 18, title: 'Code review session complete', status: 'Completed' },
+    { id: 19, title: 'Project kickoff meeting', status: 'Completed' },
+    { id: 20, title: 'Initial client feedback received', status: 'Completed' },
+    { id: 21, title: 'Production build release', status: 'Completed' },
+    { id: 22, title: 'Prepare release notes', status: 'Completed' },
+    { id: 23, title: 'Archive old project files', status: 'Completed' },
+    { id: 24, title: 'Security audit passed', status: 'Completed' },
   ]);
 
   const filteredTasks = tasks.filter((task) =>
@@ -107,8 +63,14 @@ export default function TaskComp() {
   );
 
   const paginatedTasks = filteredTasks.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    ((activeNav === 'Completed'
+      ? currentPageForCompleted
+      : currentPageForInCompleted) -
+      1) *
+      itemsPerPage,
+    (activeNav === 'Completed'
+      ? currentPageForCompleted
+      : currentPageForInCompleted) * itemsPerPage
   );
 
   console.log('pagnated', paginatedTasks);
@@ -215,9 +177,15 @@ export default function TaskComp() {
               ? countCompletedTask
               : countInCompletedTask
           }
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
+          currentPage={
+            activeNav === 'Completed'
+              ? currentPageForCompleted
+              : currentPageForInCompleted
+          }
+          setCurrentPageForCompleted={setCurrentPageForCompleted}
+          setCurrentPageForInCompleted={setCurrentPageForInCompleted}
           itemsPerPage={itemsPerPage}
+          activeNav={activeNav}
         />
       </div>
 
