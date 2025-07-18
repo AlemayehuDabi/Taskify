@@ -191,7 +191,7 @@ export default function TaskComp() {
 
       {isOPen && (
         <div>
-          <Modal setIsOpen={setIsOpen} />
+          <Modal isOpen={isOPen} setIsOpen={setIsOpen} />
         </div>
       )}
     </div>
