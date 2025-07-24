@@ -2,18 +2,19 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-// import { useSelector } from 'react-redux';
-// import type { RootState } from '@/store/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 export default function AuthorizeUser() {
+  const { isAuth } = useSelector((state: RootState) => state.users);
+
   const router = useRouter();
 
-  // mocked auth in place of actual Redux logic
+  // // mocked auth in place of actual Redux logic
   // const user = useSelector((state: RootState) => state.users.user);
   // const auth = !!user?.session;
 
   // temporary till api
-  const auth = true;
   const user = {
     id: '507f191e810c19729de860ea',
     name: 'Alemayehu Dabi',
@@ -24,13 +25,15 @@ export default function AuthorizeUser() {
     isEmailVerified: true,
   };
 
+  console.log('this is isAuth', isAuth);
+
   useEffect(() => {
-    if (!auth) {
+    if (!isAuth) {
       router.replace('/sign-in');
     } else {
       router.push(`/dashboard/${user.session}`);
     }
-  }, [auth, router, user.session]);
+  }, [isAuth, router, user.session]);
 
   return null;
 }

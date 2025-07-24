@@ -7,6 +7,8 @@ import Modal from '../Modal/modal';
 import TaskPagination from '../TaskPagination/taskPagination';
 import NoTask from '../NoTask/NoTask';
 import { Task } from '@/types/types';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
 
 export default function TaskComp() {
   const [activeNav, setActiveNav] = useState('Pending');
@@ -17,6 +19,10 @@ export default function TaskComp() {
   const [currentPageForInCompleted, setCurrentPageForInCompleted] = useState(1);
   const [countCompletedTask, setCountCompletedTasks] = useState(0);
   const [countInCompletedTask, setCountInCompletedTasks] = useState(0);
+
+  const { isAuth } = useSelector((state: RootState) => state.users);
+
+  console.log(isAuth);
 
   const itemsPerPage = 3;
 

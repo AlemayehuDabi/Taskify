@@ -1,13 +1,14 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import axios from 'axios';
-import { taskSchema } from '@/lib/validator';
+// import { taskSchema } from '@/lib/validator';
 
 // Define a type for the slice state
 interface UserState {
   user: any;
   loading: boolean;
   error: any;
+  isAuth: boolean;
 }
 
 // Define the initial state using that type
@@ -15,6 +16,7 @@ const initialState: UserState = {
   user: null,
   loading: false,
   error: null,
+  isAuth: false,
 };
 
 // async thunk
@@ -66,10 +68,18 @@ const signUp = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    // temp till api
+    logInUser: (state) => {
+      state.isAuth = true;
+    },
+    signUpUser: (state) => {
+      state.isAuth = true;
+    },
+  },
 });
 
-export const {} = userSlice.actions;
+export const { logInUser, signUpUser } = userSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.users;
