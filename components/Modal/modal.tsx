@@ -10,7 +10,7 @@ export default function Modal({
   isDeleted: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  console.log(isDeleted);
+  // console.log(isDeleted);
 
   return (
     <div

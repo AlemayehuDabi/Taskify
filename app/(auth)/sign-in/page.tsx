@@ -83,7 +83,7 @@ export default function SignIn() {
 
             {/* sign up link */}
             <span className="text-lg sm:text-sm text-center lg:text-left">
-              Don't have an account?
+              Don&apos;t have an account?
               <Link
                 href="/sign-up"
                 className="border-b-2 border-black hover:border-primary  font-semibold ml-1 hover:text-primary"

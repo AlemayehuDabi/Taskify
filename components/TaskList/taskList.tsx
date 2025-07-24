@@ -1,8 +1,16 @@
 import { Trash2 } from 'lucide-react';
 import DropDown from '../DropDown/dropDown';
 import Modal from '../Modal/modal';
+import { Task, TaskStatus } from '@/types/types';
 
-export type Status = 'Pending' | 'In Progress' | 'Completed';
+interface TaskListProps {
+  paginatedTasks: Task[];
+  activeTaskId: number | null;
+  setActiveTaskId: (id: number) => void;
+  setTasks: React.Dispatch<React.SetStateAction<Task[]>>;
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 export default function TaskList({
   paginatedTasks,
@@ -11,10 +19,10 @@ export default function TaskList({
   setTasks,
   isOpen,
   setIsOpen,
-}: any) {
-  const handleStatusChange = (taskId: number, newStatus: Status) => {
-    setTasks((prev: any) =>
-      prev.map((task: any) =>
+}: TaskListProps) {
+  const handleStatusChange = (taskId: number, newStatus: TaskStatus) => {
+    setTasks((prev) =>
+      prev.map((task: Task) =>
         task.id === taskId ? { ...task, status: newStatus } : task
       )
     );
@@ -22,7 +30,7 @@ export default function TaskList({
 
   return (
     <div className="space-y-5">
-      {paginatedTasks.map((task: any) => (
+      {paginatedTasks.map((task: Task) => (
         <div
           key={task.id}
           onClick={() => setActiveTaskId(task.id)}

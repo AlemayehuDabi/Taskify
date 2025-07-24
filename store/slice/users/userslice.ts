@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../../store';
 import axios from 'axios';
+import { taskSchema } from '@/lib/validator';
 
 // Define a type for the slice state
 interface UserState {

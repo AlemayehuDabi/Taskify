@@ -9,8 +9,13 @@ import {
 
 import { ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Task, TaskStatus } from '@/types/types';
+interface DropDownProps {
+  task: Task;
+  handleStatusChange: (taskId: number, status: TaskStatus) => void;
+}
 
-export default function DropDown({ task, handleStatusChange }: any) {
+export default function DropDown({ task, handleStatusChange }: DropDownProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild className="min-w-[120px]">
@@ -36,7 +41,7 @@ export default function DropDown({ task, handleStatusChange }: any) {
           .map((status) => (
             <DropdownMenuItem
               key={status}
-              onClick={() => handleStatusChange(task.id, status)}
+              onClick={() => handleStatusChange(task.id, status as TaskStatus)}
               className={cn(
                 status === 'Completed' && 'text-secondary hover:text-secondary',
                 status === 'Pending' && 'text-primary hover:text-primary ',

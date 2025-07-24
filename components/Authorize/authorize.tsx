@@ -30,7 +30,7 @@ export default function AuthorizeUser() {
     } else {
       router.push(`/dashboard/${user.session}`);
     }
-  }, [auth, router]);
+  }, [auth, router, user.session]);
 
   return null;
 }

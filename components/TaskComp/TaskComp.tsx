@@ -1,18 +1,12 @@
 'use client';
 
 import { Plus } from 'lucide-react';
-// import NoTask from '@/components/NoTask/NoTask';
 import React, { useEffect, useState } from 'react';
 import TaskList from '../TaskList/taskList';
 import Modal from '../Modal/modal';
 import TaskPagination from '../TaskPagination/taskPagination';
 import NoTask from '../NoTask/NoTask';
-
-interface Task {
-  id: number;
-  title: string;
-  status: 'Pending' | 'In Progress' | 'Completed';
-}
+import { Task } from '@/types/types';
 
 export default function TaskComp() {
   const [activeNav, setActiveNav] = useState('Pending');

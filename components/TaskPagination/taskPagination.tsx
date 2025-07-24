@@ -1,5 +1,14 @@
 import { Button } from '../ui/button';
 
+interface TaskPaginationProps {
+  totalItems: number;
+  currentPage: number;
+  setCurrentPageForCompleted: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPageForInCompleted: React.Dispatch<React.SetStateAction<number>>;
+  itemsPerPage: number;
+  activeNav: string;
+}
+
 export default function TaskPagination({
   totalItems,
   currentPage = 1,
@@ -7,14 +16,7 @@ export default function TaskPagination({
   setCurrentPageForInCompleted,
   itemsPerPage = 3,
   activeNav,
-}: {
-  totalItems: number;
-  currentPage: number;
-  setCurrentPageForCompleted: React.Dispatch<React.SetStateAction<number>>;
-  setCurrentPageForInCompleted: React.Dispatch<React.SetStateAction<number>>;
-  itemsPerPage: number;
-  activeNav: string;
-}) {
+}: TaskPaginationProps) {
   const totalPage = Math.ceil(totalItems / itemsPerPage);
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
