@@ -4,7 +4,7 @@ import { LogOut } from 'lucide-react';
 
 export default function NavBar() {
   return (
-    <div className="w-full flex justify-between items-center">
+    <div className="w-full flex justify-between items-center px-4">
       {/* search */}
       <div className="w-1/3 border border-gray-300 text-gray-600 rounded-full px-4 flex items-center gap-3">
         <Search size={14} />

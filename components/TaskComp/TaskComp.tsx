@@ -16,8 +16,8 @@ interface Task {
 export default function TaskComp() {
   const [activeNav, setActiveNav] = useState('Pending');
   const [activeTaskId, setActiveTaskId] = useState(0);
-  const [isOPen, setIsOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentPageForCompleted, setCurrentPageForCompleted] = useState(1);
   const [currentPageForInCompleted, setCurrentPageForInCompleted] = useState(1);
   const [countCompletedTask, setCountCompletedTasks] = useState(0);
@@ -75,12 +75,6 @@ export default function TaskComp() {
 
   console.log('pagnated', paginatedTasks);
 
-  // const [isAuth, setIsAuth] = useState(false);
-
-  // if (!isAuth) {
-  //  router('/sign-in)
-  // }
-
   // if(tasks.length === 0){
   //  return <NoTask />;
   // }
@@ -98,15 +92,15 @@ export default function TaskComp() {
   }, [tasks]);
 
   return (
-    <div className={`flex flex-col gap-7`}>
+    <div className="flex flex-col gap-7 sm:px-6 md:px-10 lg:px-20">
       {/* top nav */}
-      <div className="">
+      <div className="flex gap-2 justify-start">
         <button
           className={`${
             activeNav === 'Pending'
               ? 'bg-primary border border-primary text-white'
               : 'text-black bg-white border border-gray-300'
-          }  px-6 py-1 text-lg  font-bold`}
+          } px-4 py-1 text-base sm:text-lg font-bold rounded-md transition-colors duration-300 w-full sm:w-auto text-center`}
           onClick={() => setActiveNav('Pending')}
         >
           Pending
@@ -116,7 +110,7 @@ export default function TaskComp() {
             activeNav === 'Completed'
               ? 'bg-primary border border-primary text-white'
               : 'text-black bg-white border border-gray-300'
-          }  px-6 py-1 text-lg  font-bold`}
+          } px-4 py-1 text-base sm:text-lg font-bold rounded-md transition-colors duration-300 w-full sm:w-auto text-center`}
           onClick={() => setActiveNav('Completed')}
         >
           Completed
@@ -124,33 +118,35 @@ export default function TaskComp() {
       </div>
 
       {/* header */}
-      <div>
-        {activeNav === 'Pending' && (
-          <div className="flex items-center gap-8">
-            <span className="text-xl font-bold">
-              You have got
-              <span className="text-primary"> {numberOfTasks} task</span> today
-            </span>
-            <button
-              className="flex items-center gap-1 bg-primary text-gray-200 text-sm px-6 py-2 rounded-lg"
-              onClick={() => setIsOpen(!isOPen)}
-            >
-              <Plus size={20} strokeWidth={1.2} />
-              Add New
-            </button>
-          </div>
-        )}
-      </div>
+      {activeNav === 'Pending' && (
+        <div className="flex items-center justify-between gap-4">
+          <span className="text-lg sm:text-xl font-bold text-center sm:text-left">
+            You have got
+            <span className="text-primary"> {numberOfTasks} task</span> today
+          </span>
+          <button
+            className="flex items-center justify-center gap-1 bg-primary text-gray-200 text-sm sm:text-base px-4 sm:px-6 py-2 rounded-lg sm:w-auto hover:bg-primary/90 transition"
+            onClick={() => setIsAddModalOpen(!isAddModalOpen)}
+          >
+            <Plus size={20} strokeWidth={1.2} />
+            Add New
+          </button>
+        </div>
+      )}
 
       {/* status */}
       <div className="-mb-3">
         <section>
           {activeNav === 'Pending' ? (
-            <span className="font-semibold text-xl">On Hold</span>
+            <span className="font-semibold text-lg sm:text-xl block text-center sm:text-left">
+              On Hold
+            </span>
           ) : (
-            <div className="flex gap-3 items-center">
-              <span className="font-semibold text-xl">Completed</span>
-              <span className="bg-light-primary px-5 py-1 rounded-full text-primary">
+            <div className="flex gap-3 items-center justify-center sm:justify-start">
+              <span className="font-semibold text-lg sm:text-xl">
+                Completed
+              </span>
+              <span className="bg-light-primary px-4 py-1 rounded-full text-primary text-sm sm:text-base">
                 Inactive
               </span>
             </div>
@@ -165,12 +161,13 @@ export default function TaskComp() {
           setActiveTaskId={setActiveTaskId}
           activeTaskId={activeTaskId}
           setTasks={setTasks}
+          isOpen={isDeleteModalOpen}
+          setIsOpen={setIsDeleteModalOpen}
         />
       </div>
 
-      {/*pagination*/}
-
-      <div className="">
+      {/* pagination */}
+      <div>
         <TaskPagination
           totalItems={
             activeNav === 'Completed'
@@ -189,10 +186,14 @@ export default function TaskComp() {
         />
       </div>
 
-      {isOPen && (
-        <div>
-          <Modal isOpen={isOPen} setIsOpen={setIsOpen} />
-        </div>
+      {isAddModalOpen && (
+        <>
+          <Modal
+            isOpen={isAddModalOpen}
+            setIsOpen={setIsAddModalOpen}
+            isDeleted={false}
+          />
+        </>
       )}
     </div>
   );
