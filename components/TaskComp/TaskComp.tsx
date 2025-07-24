@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import TaskList from '../TaskList/taskList';
 import Modal from '../Modal/modal';
 import TaskPagination from '../TaskPagination/taskPagination';
+import NoTask from '../NoTask/NoTask';
 
 interface Task {
   id: number;
@@ -36,7 +37,6 @@ export default function TaskComp() {
     { id: 6, title: 'Team onboarding session', status: 'Pending' },
     { id: 7, title: 'API documentation outline', status: 'Pending' },
     { id: 8, title: 'Confirm hosting setup', status: 'Pending' },
-
     { id: 9, title: 'Implement user authentication', status: 'In Progress' },
     { id: 10, title: 'Develop dashboard layout', status: 'In Progress' },
     { id: 11, title: 'Integrate payment gateway', status: 'In Progress' },
@@ -45,7 +45,6 @@ export default function TaskComp() {
     { id: 14, title: 'Fix reported bugs', status: 'In Progress' },
     { id: 15, title: 'Add multi-language support', status: 'In Progress' },
     { id: 16, title: 'Update project README', status: 'In Progress' },
-
     { id: 17, title: 'Deploy latest version to staging', status: 'Completed' },
     { id: 18, title: 'Code review session complete', status: 'Completed' },
     { id: 19, title: 'Project kickoff meeting', status: 'Completed' },
@@ -73,11 +72,7 @@ export default function TaskComp() {
       : currentPageForInCompleted) * itemsPerPage
   );
 
-  console.log('pagnated', paginatedTasks);
-
-  // if(tasks.length === 0){
-  //  return <NoTask />;
-  // }
+  // console.log('pagnated', paginatedTasks);
 
   useEffect(() => {
     const completedCount = tasks.filter(
@@ -91,16 +86,20 @@ export default function TaskComp() {
     setCountInCompletedTasks(inCompletedCount);
   }, [tasks]);
 
+  if (tasks.length === 0) {
+    return <NoTask />;
+  }
+
   return (
     <div className="flex flex-col gap-7 sm:px-6 md:px-10 lg:px-20">
       {/* top nav */}
-      <div className="flex gap-2 justify-start">
+      <div className="flex justify-start">
         <button
           className={`${
             activeNav === 'Pending'
               ? 'bg-primary border border-primary text-white'
               : 'text-black bg-white border border-gray-300'
-          } px-4 py-1 text-base sm:text-lg font-bold rounded-md transition-colors duration-300 w-full sm:w-auto text-center`}
+          } px-4 py-2 lg:py-1 text-base sm:text-lg font-bold transition-colors duration-300 w-full sm:w-auto text-center`}
           onClick={() => setActiveNav('Pending')}
         >
           Pending
@@ -110,7 +109,7 @@ export default function TaskComp() {
             activeNav === 'Completed'
               ? 'bg-primary border border-primary text-white'
               : 'text-black bg-white border border-gray-300'
-          } px-4 py-1 text-base sm:text-lg font-bold rounded-md transition-colors duration-300 w-full sm:w-auto text-center`}
+          } px-4 py-2 lg:py-1 text-base sm:text-lg font-bold transition-colors duration-300 w-full sm:w-auto text-center`}
           onClick={() => setActiveNav('Completed')}
         >
           Completed

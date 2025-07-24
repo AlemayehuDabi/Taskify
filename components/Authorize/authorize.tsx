@@ -8,11 +8,12 @@ import { useRouter } from 'next/navigation';
 export default function AuthorizeUser() {
   const router = useRouter();
 
-  // TEMP: mocked auth in place of actual Redux logic
+  // mocked auth in place of actual Redux logic
   // const user = useSelector((state: RootState) => state.users.user);
   // const auth = !!user?.session;
 
-  const auth = true; // temporary
+  // temporary till api
+  const auth = true;
   const user = {
     id: '507f191e810c19729de860ea',
     name: 'Alemayehu Dabi',

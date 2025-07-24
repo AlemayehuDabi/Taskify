@@ -3,7 +3,7 @@ import { Plus } from 'lucide-react';
 
 export default function NoTask() {
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="mt-[15rem]">
       <div className="flex flex-col justify-center items-center gap-8">
         {/*text  */}
         <div className="flex flex-col justify-center items-center">
